@@ -11,6 +11,18 @@
 
 ---
 
+## 效果预览
+
+### 设置页 — 填入 API Key 即可开始
+
+![设置页](docs/screenshot_setup.png)
+
+### 梗图墙 — 虾总为你点评今日热点
+
+![梗图墙](docs/screenshot_gallery.png)
+
+---
+
 ## 它做了什么
 
 ```

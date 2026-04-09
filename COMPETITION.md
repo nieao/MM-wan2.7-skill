@@ -121,6 +121,18 @@ python -m meme_hunter
 
 ## 七、效果展示
 
+### 设置页截图
+
+![设置页](docs/screenshot_setup.png)
+
+用户进入后填写 DashScope API Key → 选择 LLM Provider → 点击「让虾总开工」。
+
+### 梗图墙截图
+
+![梗图墙](docs/screenshot_gallery.png)
+
+虾总穿西装出镜，建筑极简风排版，每张图带来源标记 + 原文链接 + 一键复制/下载按钮。
+
 ### 示例梗（Qwen-plus 真实产出）
 
 | 热点 | 上联 | 下联 | 梗点 |
