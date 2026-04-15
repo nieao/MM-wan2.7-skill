@@ -1,0 +1,32 @@
+[
+  {
+    "source": "微博热搜",
+    "title": "某AI公司一夜裁员50%创始人发蛋糕庆生",
+    "url": "https://example.com/1",
+    "hot": "999万",
+    "meme_point": "现实和理想的反差",
+    "image_prompt": "一个充满黑色幽默的场景，电影感打光，写实风格",
+    "top_text": "理想很丰满",
+    "bottom_text": "现实很骨感"
+  },
+  {
+    "source": "微博热搜",
+    "title": "00后整顿职场新姿势上班自带按摩椅",
+    "url": "https://example.com/2",
+    "hot": "888万",
+    "meme_point": "现实和理想的反差",
+    "image_prompt": "一个充满黑色幽默的场景，电影感打光，写实风格",
+    "top_text": "理想很丰满",
+    "bottom_text": "现实很骨感"
+  },
+  {
+    "source": "知乎热榜",
+    "title": "为什么程序员越来越喜欢用AI写代码了",
+    "url": "https://example.com/3",
+    "hot": "777万",
+    "meme_point": "现实和理想的反差",
+    "image_prompt": "一个充满黑色幽默的场景，电影感打光，写实风格",
+    "top_text": "理想很丰满",
+    "bottom_text": "现实很骨感"
+  }
+]

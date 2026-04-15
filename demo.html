@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>虾评爆点 · 成品展示 · Wan2.7 AI整活大赛</title>
+<meta name="description" content="虾评爆点 — 让拟人龙虾虾总点评全网热点，一键生成可传播梗图。Wan2.7 AI整活大赛参赛作品。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+:root {
+  --black: #1a1a1a;
+  --dark: #2d2d2d;
+  --gray-900: #3a3a3a;
+  --gray-700: #555;
+  --gray-500: #888;
+  --gray-300: #bbb;
+  --gray-100: #e8e8e8;
+  --white: #fafafa;
+  --warm: #c8a882;
+  --warm-light: #e8d5c0;
+  --warm-bg: #f5f0eb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  background: var(--white);
+  color: var(--dark);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* 建筑网格装饰 */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  background: var(--gray-300);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+}
+body::before { top: 0; left: 50%; width: 1px; height: 100vh; }
+body::after { top: 50%; left: 0; width: 100vw; height: 1px; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* 导航 */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  backdrop-filter: blur(20px);
+  background: rgba(250, 250, 250, 0.88);
+  border-bottom: 1px solid var(--gray-100);
+  padding: 16px 0;
+}
+nav .container {
+  display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo {
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 1.1rem; font-weight: 600; color: var(--black);
+  letter-spacing: 0.02em;
+}
+nav .logo span { color: var(--warm); }
+nav .links { display: flex; gap: 32px; }
+nav .links a {
+  font-size: 0.78rem; color: var(--gray-500); text-decoration: none;
+  letter-spacing: 0.15em; transition: color 0.3s;
+}
+nav .links a:hover { color: var(--warm); }
+
+/* Hero */
+.hero {
+  padding: 180px 0 120px;
+  text-align: center;
+}
+.hero .tag {
+  font-size: 0.72rem; letter-spacing: 0.35em; color: var(--warm);
+  text-transform: uppercase; margin-bottom: 32px;
+}
+.hero h1 {
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 700; color: var(--black);
+  letter-spacing: 0.02em; margin-bottom: 24px;
+  line-height: 1.3;
+}
+.hero .subtitle {
+  color: var(--gray-700); font-size: 1.1rem;
+  max-width: 600px; margin: 0 auto 48px;
+  line-height: 1.9;
+}
+.hero .badges {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+}
+.hero .badge {
+  padding: 10px 24px; border: 1px solid var(--gray-100);
+  font-size: 0.75rem; letter-spacing: 0.15em; color: var(--gray-700);
+  transition: all 0.3s;
+}
+.hero .badge:hover { border-color: var(--warm); color: var(--warm); }
+.hero .badge .dot {
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--warm);
+  margin-right: 8px; vertical-align: middle;
+}
+
+/* Section */
+section { padding: 80px 0; }
+.section-header {
+  margin-bottom: 64px;
+}
+.section-tag {
+  font-size: 0.72rem; letter-spacing: 0.35em; color: var(--warm);
+  text-transform: uppercase; margin-bottom: 16px;
+}
+.section-title {
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 600; color: var(--black);
+  letter-spacing: 0.02em;
+}
+.section-desc {
+  color: var(--gray-700); font-size: 0.95rem;
+  margin-top: 12px; max-width: 600px;
+}
+
+/* 梗图展示 - 主打 */
+.showcase-grid {
+  display: grid; gap: 48px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+.showcase-card {
+  border: 1px solid var(--gray-100);
+  background: #fff;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+.showcase-card::before {
+  content: ""; position: absolute; top: 0; left: 0;
+  width: 0; height: 2px; background: var(--warm);
+  transition: width 0.5s ease;
+}
+.showcase-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--warm);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.06);
+}
+.showcase-card:hover::before { width: 100%; }
+.showcase-card img {
+  width: 100%; display: block;
+  transition: transform 0.5s ease;
+}
+.showcase-card:hover img { transform: scale(1.02); }
+.showcase-card .card-meta {
+  padding: 24px;
+}
+.showcase-card .card-source {
+  font-size: 0.7rem; letter-spacing: 0.2em; color: var(--warm);
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.showcase-card .card-title {
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 1rem; color: var(--black);
+  font-weight: 500; margin-bottom: 12px;
+}
+.showcase-card .card-point {
+  font-size: 0.85rem; color: var(--gray-700);
+  font-style: italic; border-left: 2px solid var(--warm-light);
+  padding-left: 12px;
+}
+
+/* 深色金句区 */
+.dark-quote {
+  background: var(--black); color: var(--white);
+  padding: 100px 0; text-align: center;
+  position: relative;
+}
+.dark-quote::before {
+  content: "\201C"; position: absolute;
+  top: 40px; left: 50%; transform: translateX(-50%);
+  font-size: 6rem; color: var(--warm); opacity: 0.4;
+  font-family: Georgia, serif; line-height: 1;
+}
+.dark-quote p {
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  max-width: 700px; margin: 0 auto;
+  line-height: 2; letter-spacing: 0.02em;
+}
+.dark-quote .author {
+  margin-top: 24px; font-size: 0.78rem;
+  color: var(--warm); letter-spacing: 0.2em;
+}
+
+/* 产品截图 */
+.screenshot-section { background: var(--warm-bg); padding: 100px 0; }
+.screenshot-grid {
+  display: grid; gap: 48px;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+.screenshot-item {
+  background: #fff; overflow: hidden;
+  border: 1px solid rgba(200,168,130,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+  transition: all 0.5s ease;
+}
+.screenshot-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+}
+.screenshot-item img { width: 100%; display: block; }
+.screenshot-item .caption {
+  padding: 20px 24px;
+  font-size: 0.85rem; color: var(--gray-700);
+  letter-spacing: 0.1em;
+}
+.screenshot-item .caption strong {
+  color: var(--black); font-weight: 500;
+}
+
+/* 工作流 */
+.flow {
+  display: flex; flex-direction: column; gap: 0;
+  position: relative; padding-left: 40px;
+}
+.flow::before {
+  content: ""; position: absolute;
+  left: 11px; top: 0; bottom: 0;
+  width: 1px; background: var(--gray-100);
+}
+.flow-step {
+  position: relative; padding: 24px 0 24px 32px;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+.flow-step.visible { opacity: 1; transform: translateY(0); }
+.flow-step::before {
+  content: ""; position: absolute;
+  left: -33px; top: 32px;
+  width: 9px; height: 9px;
+  border-radius: 50%; background: var(--warm);
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 1px var(--warm);
+}
+.flow-step .step-num {
+  font-size: 0.7rem; letter-spacing: 0.2em; color: var(--warm);
+  margin-bottom: 4px;
+}
+.flow-step .step-title {
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 1.1rem; color: var(--black);
+  font-weight: 500; margin-bottom: 8px;
+}
+.flow-step .step-desc {
+  font-size: 0.88rem; color: var(--gray-700);
+}
+
+/* 特性列表 */
+.features-grid {
+  display: grid; gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.feature-item {
+  padding: 32px; border: 1px solid var(--gray-100);
+  transition: all 0.3s ease;
+}
+.feature-item:hover { border-color: var(--warm); }
+.feature-item .f-num {
+  font-family: "Noto Serif SC", serif;
+  font-size: 2rem; color: var(--warm-light);
+  font-weight: 600; margin-bottom: 16px;
+  line-height: 1;
+}
+.feature-item .f-title {
+  font-size: 0.95rem; font-weight: 500;
+  color: var(--black); margin-bottom: 8px;
+}
+.feature-item .f-desc {
+  font-size: 0.85rem; color: var(--gray-700);
+}
+
+/* CTA */
+.cta-section {
+  text-align: center; padding: 120px 0;
+  border-top: 1px solid var(--gray-100);
+}
+.cta-section .cta-title {
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 2rem; color: var(--black);
+  margin-bottom: 16px;
+}
+.cta-section .cta-desc {
+  color: var(--gray-700); margin-bottom: 48px;
+  font-size: 0.95rem;
+}
+.cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 16px 40px;
+  text-decoration: none; font-size: 0.85rem;
+  letter-spacing: 0.15em; transition: all 0.3s ease;
+  font-family: inherit;
+}
+.btn-primary {
+  background: var(--black); color: var(--white);
+  border: 1px solid var(--black);
+}
+.btn-primary:hover { background: var(--warm); color: var(--black); border-color: var(--warm); }
+.btn-outline {
+  background: transparent; color: var(--dark);
+  border: 1px solid var(--gray-100);
+}
+.btn-outline:hover { border-color: var(--warm); color: var(--warm); }
+
+/* Footer */
+footer {
+  padding: 48px 0; border-top: 1px solid var(--gray-100);
+  text-align: center;
+}
+footer p {
+  font-size: 0.78rem; color: var(--gray-500);
+  letter-spacing: 0.15em;
+}
+footer .warm { color: var(--warm); }
+
+/* 滚动入场 */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .hero { padding: 140px 0 80px; }
+  nav .links { display: none; }
+  .screenshot-grid { grid-template-columns: 1fr; }
+  .showcase-grid { grid-template-columns: 1fr; }
+  .dark-quote { padding: 80px 24px; }
+  section { padding: 60px 0; }
+  .flow { padding-left: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav>
+  <div class="container">
+    <div class="logo"><span>虾</span>评爆点</div>
+    <div class="links">
+      <a href="#showcase">成品展示</a>
+      <a href="#product">产品截图</a>
+      <a href="#flow">工作流</a>
+      <a href="#features">特性</a>
+      <a href="https://github.com/nieao/MM-wan2.7-skill" target="_blank">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="tag">WAN 2.7 AI SKILL / DEMO</div>
+    <h1>虾评爆点</h1>
+    <p class="subtitle">
+      让拟人龙虾「虾总」点评今日全网热点，
+      用通义万相 Wan2.7 自动生成可传播的梗图。
+      一个 Key，30 秒，从热搜到梗图全自动。
+    </p>
+    <div class="badges">
+      <div class="badge"><span class="dot"></span>Wan 2.7 文生图</div>
+      <div class="badge"><span class="dot"></span>Qwen 文案生成</div>
+      <div class="badge"><span class="dot"></span>Claude Code Skill</div>
+      <div class="badge"><span class="dot"></span>OpenClaw 兼容</div>
+    </div>
+  </div>
+</section>
+
+<!-- 成品梗图展示 -->
+<section id="showcase">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">01 / MEME SHOWCASE</div>
+      <h2 class="section-title">成品梗图展示</h2>
+      <p class="section-desc">以下梗图均由 Wan2.7 实时生成，虾总根据热点新闻自动切换角色出镜。</p>
+    </div>
+
+    <div class="showcase-grid">
+      <!-- 虾总举蛋糕 -->
+      <article class="showcase-card reveal">
+        <img src="memes/某AI公司一夜裁员50创始人发蛋糕庆生_19165623e6_0.png"
+             alt="虾总化身CEO举蛋糕">
+        <div class="card-meta">
+          <div class="card-source">微博热搜 / 虾总出镜</div>
+          <div class="card-title">某AI公司一夜裁员50%，创始人发蛋糕庆生</div>
+          <div class="card-point">虾总穿西装，左手举蛋糕庆祝"降本增效"，右手拿裁员通知单 — 黑色幽默拉满</div>
+        </div>
+      </article>
+
+      <!-- 虾总坐按摩椅 -->
+      <article class="showcase-card reveal">
+        <img src="memes/00后整顿职场新姿势上班自带按摩椅_b86fcaa198_0.png"
+             alt="虾总坐按摩椅整顿职场">
+        <div class="card-meta">
+          <div class="card-source">微博热搜 / 虾总出镜</div>
+          <div class="card-title">00后整顿职场新姿势：上班自带按摩椅</div>
+          <div class="card-point">虾总化身00后新员工，戴耳机坐按摩椅上班，老板说这是工伤预备役</div>
+        </div>
+      </article>
+
+      <!-- 写实风：裁员 -->
+      <article class="showcase-card reveal">
+        <img src="memes/某AI公司一夜裁员50创始人发蛋糕庆生_868eaa9d65_0.png"
+             alt="AI公司裁员梗图">
+        <div class="card-meta">
+          <div class="card-source">微博热搜 / 电影感</div>
+          <div class="card-title">某AI公司一夜裁员50%，创始人发蛋糕庆生</div>
+          <div class="card-point">写实电影感风格 — Wan2.7 同时支持虾总IP和写实两种出图模式</div>
+        </div>
+      </article>
+
+      <!-- 写实风：按摩椅 -->
+      <article class="showcase-card reveal">
+        <img src="memes/00后整顿职场新姿势上班自带按摩椅_868eaa9d65_0.png"
+             alt="00后职场梗图">
+        <div class="card-meta">
+          <div class="card-source">微博热搜 / 电影感</div>
+          <div class="card-title">00后整顿职场新姿势：上班自带按摩椅</div>
+          <div class="card-point">同一热点，不同风格 — 系统自动生成多个变体供选择</div>
+        </div>
+      </article>
+
+      <!-- 写实风：AI写代码 -->
+      <article class="showcase-card reveal">
+        <img src="memes/为什么程序员越来越喜欢用AI写代码了_868eaa9d65_0.png"
+             alt="程序员AI写代码梗图">
+        <div class="card-meta">
+          <div class="card-source">知乎热榜 / 电影感</div>
+          <div class="card-title">为什么程序员越来越喜欢用AI写代码了</div>
+          <div class="card-point">以前自己写 bug，现在调教 AI 写 bug — 来源自动标注，一键复制文案</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 金句 -->
+<div class="dark-quote reveal">
+  <div class="container">
+    <p>一个 DashScope Key，同时驱动 Wan2.7 出图 + Qwen 写梗。<br>30 秒，从微博热搜到可传播梗图，全自动。</p>
+    <div class="author">LOBSTER HOT TAKE / 虾评爆点</div>
+  </div>
+</div>
+
+<!-- 产品截图 -->
+<section id="product" class="screenshot-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">02 / PRODUCT SCREENSHOTS</div>
+      <h2 class="section-title">产品界面</h2>
+      <p class="section-desc">建筑极简风设计，黑白 + 暖色点缀，截图即海报。</p>
+    </div>
+
+    <div class="screenshot-grid">
+      <div class="screenshot-item reveal">
+        <img src="screenshot_setup.png" alt="设置页截图">
+        <div class="caption">
+          <strong>设置页</strong> — 填入 DashScope API Key，选择 LLM Provider（6种可选），
+          勾选热点来源（微博/知乎/IT之家/抖音/36氪/百度/B站），点击「让虾总开工」
+        </div>
+      </div>
+      <div class="screenshot-item reveal">
+        <img src="screenshot_gallery.png" alt="梗图墙截图">
+        <div class="caption">
+          <strong>梗图墙</strong> — 虾总出品的梗图自动排列，每张带来源标记 + 原文链接 +
+          一键复制文案 + 下载图片 + 「戳到我了」点赞反馈
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 工作流 -->
+<section id="flow">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">03 / HOW IT WORKS</div>
+      <h2 class="section-title">从热搜到梗图，全自动</h2>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step visible">
+        <div class="step-num">STEP 01</div>
+        <div class="step-title">抓取全网热点</div>
+        <div class="step-desc">同时采集微博热搜、知乎热榜、IT之家、抖音、36氪、百度、B站 7 大平台热点</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">STEP 02</div>
+        <div class="step-title">LLM 改编梗点</div>
+        <div class="step-desc">Qwen / DeepSeek / MiniMax 等 6 种 LLM 将热点改编为上下联 + 虾总角色 + 画面描述</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">STEP 03</div>
+        <div class="step-title">Wan2.7 文生图</div>
+        <div class="step-desc">通义万相 Wan2.7 根据 prompt 生成虾总出镜的梗图主体，支持序列一致性</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">STEP 04</div>
+        <div class="step-title">Pillow 烧字幕</div>
+        <div class="step-desc">自动添加上联、下联、暖色分割线、来源水印，输出成品梗图</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">STEP 05</div>
+        <div class="step-title">建筑极简风展示</div>
+        <div class="step-desc">生成梗图墙 HTML，支持一键复制文案、下载图片、点赞反馈写入 soul.md</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 特性 -->
+<section id="features" style="background: var(--warm-bg); padding: 100px 0;">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">04 / HIGHLIGHTS</div>
+      <h2 class="section-title">差异化亮点</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-item reveal">
+        <div class="f-num">01</div>
+        <div class="f-title">虾总 IP</div>
+        <div class="f-desc">市面无同类。拟人龙虾 × 热点新闻 × 皮克斯风格，高辨识度，自带传播属性。</div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="f-num">02</div>
+        <div class="f-title">笑点自循环</div>
+        <div class="f-desc">首次 8 题笑点测试 → 生成画像 → 点赞反馈 → 每 5 次自动 reflect → 越用越懂你。</div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="f-num">03</div>
+        <div class="f-title">一个 Key 全搞定</div>
+        <div class="f-desc">DashScope API Key 同时驱动 Wan2.7 出图 + Qwen 写梗，零额外成本。</div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="f-num">04</div>
+        <div class="f-title">4 种使用模式</div>
+        <div class="f-desc">CLI / Web App / Claude Code Skill / OpenClaw Skill，覆盖开发者到普通用户全场景。</div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="f-num">05</div>
+        <div class="f-title">6 种 LLM 支持</div>
+        <div class="f-desc">Qwen / DeepSeek / MiniMax / GLM 5.1 / Nano Banana 2 / OpenAI，灵活切换。</div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="f-num">06</div>
+        <div class="f-title">开源 MIT</div>
+        <div class="f-desc">完全开源，评委可 fork 当场跑。10 分钟上手，pip install 一键部署。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container reveal">
+    <h2 class="cta-title">试试虾总的手艺</h2>
+    <p class="cta-desc">克隆仓库，填入 DashScope Key，30 秒出图。</p>
+    <div class="cta-buttons">
+      <a class="btn btn-primary" href="https://github.com/nieao/MM-wan2.7-skill" target="_blank">GitHub 仓库</a>
+      <a class="btn btn-outline" href="index.html">在线 Web App</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>虾评爆点 · Lobster Hot Take</p>
+    <p style="margin-top: 8px;">
+      POWERED BY <span class="warm">WAN 2.7</span> + QWEN ·
+      CLAUDE CODE × OPENCLAW SKILL
+    </p>
+    <p style="margin-top: 8px; font-size: 0.7rem;">
+      Wan2.7 AI整活大赛 · WaytoAGI × 通义万相
+    </p>
+  </div>
+</footer>
+
+<script>
+// 滚动入场动画
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, i * 100);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal, .flow-step').forEach(el => observer.observe(el));
+
+// 导航滚动效果
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  const currentScroll = window.pageYOffset;
+  if (currentScroll > 100) {
+    nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.04)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+  lastScroll = currentScroll;
+});
+</script>
+
+</body>
+</html>
